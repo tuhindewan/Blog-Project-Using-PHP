@@ -1,0 +1,28 @@
+<?php
+include('header.php');
+
+?>
+		<div class="content">
+			<h2>Change Footer Text</h2>
+			<form action="">
+				<table class="tbl1">
+					<tr>
+						<td>Footer text:</td>
+						
+					</tr>
+					<tr>
+						<td><input class="long" type="text" name="" value="created by Md. Saiduzzaman Tohin"></td>
+					</tr>
+					<tr>
+						
+						<td><input type="submit" value="SAVE" name=""></td>
+					</tr>
+				</table>
+			</form>
+			
+		</div>
+
+<?php
+include('footer.php');
+
+?>

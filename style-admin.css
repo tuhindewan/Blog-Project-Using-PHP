@@ -96,3 +96,27 @@ body , input ,textarea ,select{
 	border-bottom: 1px solid #3d9ccd;
 	margin-top: 10px;
 }
+
+input.short[type='text'],
+input.short[type='password'] {
+	width: 200px;
+}
+
+input.medium[type='text'],
+input.medium[type='password'] {
+	width: 400px;
+}
+
+input.long[type='text'],
+input.long[type='password'] {
+	width: 685px;
+}
+
+table.tbl1 {
+	margin-top: 10px;
+}
+
+table.tbl1 tr td input[type='text'] {
+	height: 23px;
+	line-height: 23px;
+}
