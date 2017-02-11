@@ -5,7 +5,7 @@ include('header.php');
 		<div class="content">
 			<h2>Change Footer Text</h2>
 			<form action="">
-				<table class="tbl1">
+				<table class="table1">
 					<tr>
 						<td>Footer text:</td>
 						

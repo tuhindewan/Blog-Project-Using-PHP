@@ -3,11 +3,11 @@ include('header.php');
 
 ?>
 		<div class="content">
-			<h2>Add New Category</h2>
+			<h2>Add New Tag</h2>
 			<form action="">
 				<table class="">
 					<tr>
-						<td>Category Name</td>
+						<td>Tag Name</td>
 						
 					</tr>
 					<tr>
@@ -20,12 +20,12 @@ include('header.php');
 				</table>
 			</form>
 
-			<h2>View All Categories</h2>
+			<h2>View All Tags</h2>
 			<table class="table2" width="100%">
 
 			<tr>
 				<th width="5%">Serial</th>
-				<th width="75%">Category Name</th>
+				<th width="75%">Tag Name</th>
 				<th width="15%">Action</th>
 			</tr>
 
@@ -39,7 +39,7 @@ include('header.php');
 						<form action="" method="post"> 
 							<table>
 								<tr>
-									<td>Catagory Name:</td>
+									<td>Tag Name:</td>
 								</tr>
 								<tr>
 									<td><input type="text" value="Technology" name=""></td>

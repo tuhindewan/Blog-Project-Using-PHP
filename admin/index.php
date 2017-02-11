@@ -1,6 +1,5 @@
 <?php
 include('header.php');
-
 ?>
 		<div class="content">
 			<h2> Welcome To Admin Panel</h2>

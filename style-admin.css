@@ -96,27 +96,46 @@ body , input ,textarea ,select{
 	border-bottom: 1px solid #3d9ccd;
 	margin-top: 10px;
 }
-
-input.short[type='text'],
-input.short[type='password'] {
+ .short[type='text'],
+ .short[type='password']{
 	width: 200px;
 }
-
-input.medium[type='text'],
-input.medium[type='password'] {
+ .medium[type='text'],
+ .medium[type='password']{
 	width: 400px;
 }
-
-input.long[type='text'],
-input.long[type='password'] {
+ .long[type='text'],
+ .long[type='password']{
 	width: 685px;
 }
-
-table.tbl1 {
+.table1{
 	margin-top: 10px;
-}
 
-table.tbl1 tr td input[type='text'] {
+}
+.table1 tr td input[type="text"]{
 	height: 23px;
 	line-height: 23px;
 }
+.table2{
+	margin-top: 10px;
+}
+.table2 tr td a {
+	color: #70726e;
+	text-decoration: none;
+}
+.table2 tr td{
+	text-align: center;
+}
+.table2 tr:nth-child(2n+1) td {
+	background-color: #d9dad9;
+}
+.table2 tr:nth-child(2n) td {
+	background-color: #d2d3d1;
+}
+.table2 tr th {
+	background-color: #3d9ccd;
+	color: #fff;
+}
+.table2 tr th, .table2 tr td {
+	padding: 2px;
+} 

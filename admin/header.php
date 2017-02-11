@@ -2,7 +2,15 @@
 <html>
 <head>
 	<title>Dashboard - Sample Blog PHP</title>
-	<link rel="stylesheet" type="text/css" href="../style-admin.css">
+	<link rel="stylesheet"  href="../style-admin.css">
+	<script type="text/javascript">
+		function confirmDelete() {
+			return confirm("Do you sure want to delete this data");
+		}
+	</script>
+<script type="text/javascript" src="../jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" href="../fancybox/jquery.fancybox.css" type="text/css" />
+<script type="text/javascript" src="../fancybox/jquery.fancybox.pack.js"></script>
 </head>
 <body>
 
@@ -24,6 +32,7 @@
 				<li><a href="">Add Post</a></li>
 				<li><a href="">View Post</a></li>
 				<li><a href="manage-catgory.php">Manage Catagory</a></li>
-				<li><a href="">Manage tags</a></li>
+				<li><a href="manage-tags.php">Manage tags</a></li>
 			</ul>
 		</div>
+		
