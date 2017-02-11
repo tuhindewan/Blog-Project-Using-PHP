@@ -31,9 +31,9 @@
 			<h2>Blog Options</h2>
 			<ul>
 				<li><a href="add-post.php">Add Post</a></li>
-				<li><a href="">View Post</a></li>
+				<li><a href="view-post.php">View Post</a></li>
 				<li><a href="manage-catgory.php">Manage Catagory</a></li>
 				<li><a href="manage-tags.php">Manage tags</a></li>
 			</ul>
-		</div>
+	</div>
 		

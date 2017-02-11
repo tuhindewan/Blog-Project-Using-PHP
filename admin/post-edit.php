@@ -3,21 +3,22 @@ include('header.php');
 
 ?>
 		<div class="content">
-			<h2>Add New Post</h2>
+			<h2>Edit Post</h2>
 			<form action="">
 				<table class="">
 					<tr>
 						<td>Title</td>
+						
 					</tr>
 					<tr>
-						<td><input class="long" type="text" name="" value=""></td>
+						<td><input class="long" type="text" name="" value="Retro Photos"></td>
 					</tr>
 					<tr>
 						<td>Descriptions</td>
 					</tr>
 					<tr>
 						<td>
-							<textarea name="description" cols="30" rows="10"></textarea>
+							<textarea name="description" cols="30" rows="10">Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.Put your description here.</textarea>
 							<script type="text/javascript">
 	if ( typeof CKEDITOR == 'undefined' )
 	{
@@ -36,8 +37,16 @@ include('header.php');
 
 </script>
 						</td>
+						</tr>
+				 
+						<td>Previous Image Preview</td>
+						
 					</tr>
-				
+					<tr>
+						<td><img src="" alt=""></td>
+					</tr>
+					</tr>
+				 
 						<td>Add Image</td>
 						
 					</tr>
@@ -65,12 +74,12 @@ include('header.php');
 				
 					<tr>
 						
-						<td><input type="submit" value="SAVE" name=""></td>
+						<td><input type="submit" value="UPDATE" name=""></td>
 					</tr>
 				</table>
 			</form>
 
-			</div>
+			
 
 <?php
 include('footer.php');
