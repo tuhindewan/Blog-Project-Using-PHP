@@ -139,3 +139,11 @@ body , input ,textarea ,select{
 .table2 tr th, .table2 tr td {
 	padding: 2px;
 } 
+.error{
+	color: red;
+	font-weight: bold;
+}
+.success{
+	color: green;
+	font-weight: bold;
+}
