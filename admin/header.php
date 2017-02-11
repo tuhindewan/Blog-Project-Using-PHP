@@ -11,6 +11,7 @@
 <script type="text/javascript" src="../jquery-3.1.1.min.js"></script>
 <link rel="stylesheet" href="../fancybox/jquery.fancybox.css" type="text/css" />
 <script type="text/javascript" src="../fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
 </head>
 <body>
 
@@ -29,7 +30,7 @@
 
 			<h2>Blog Options</h2>
 			<ul>
-				<li><a href="">Add Post</a></li>
+				<li><a href="add-post.php">Add Post</a></li>
 				<li><a href="">View Post</a></li>
 				<li><a href="manage-catgory.php">Manage Catagory</a></li>
 				<li><a href="manage-tags.php">Manage tags</a></li>
