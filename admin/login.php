@@ -15,7 +15,7 @@ if(isset($_POST['form_login']))
 		}
 	
 		
-		$password = $_POST['password']; // admin
+		$password = $_POST['password']; 
 		$password = md5($password);
 	
 	
