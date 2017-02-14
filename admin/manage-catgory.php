@@ -5,7 +5,12 @@ if($_SESSION['name']!='admin')
 {
 	header('location: login.php');
 }
-	include("../connection.php");
+	
+?>
+<?php
+
+include("../connection.php");
+
 ?>
 
 

@@ -5,6 +5,51 @@ if($_SESSION['name']!='admin')
 {
 	header('location: login.php');
 }
+include("../connection.php");
+?>
+
+
+<?php
+
+if (isset($_POST['form_save'])) {
+	
+	try{
+
+			if (empty($_POST['post_title'])) {
+				
+				throw new Exception("Title can not be Empty");
+				
+			}
+			if (empty($_POST['post_description'])) {
+				
+				throw new Exception("Descriptions can not be Empty");
+				
+			}
+			if (empty($_POST['cat_id'])) {
+				
+				throw new Exception("Category Name can not be Empty");
+				
+			}
+				if (empty($_POST['tag_in'])) {
+				
+				throw new Exception("Tag Name can not be Empty");
+				
+			}
+
+			$success_message = "Post is inserted Successfully";
+
+	}
+
+
+	catch(Exception $e){
+
+		$error_message = $e->getMessage();
+	}
+}
+
+
+
+
 ?>
 
 
@@ -14,20 +59,27 @@ include('header.php');
 ?>
 		<div class="content">
 			<h2>Add New Post</h2>
-			<form action="">
+			<form action="" method="post">
 				<table class="">
 					<tr>
 						<td>Title</td>
 					</tr>
+
+					<?php
+					if (isset($error_message)) {
+						echo $error_message;
+					}
+
+					?>
 					<tr>
-						<td><input class="long" type="text" name="" value=""></td>
+						<td><input class="long" type="text" name="post_title" value=""></td>
 					</tr>
 					<tr>
 						<td>Descriptions</td>
 					</tr>
 					<tr>
 						<td>
-							<textarea name="description" cols="30" rows="10"></textarea>
+							<textarea name="post_description" cols="30" rows="10"></textarea>
 							<script type="text/javascript">
 	if ( typeof CKEDITOR == 'undefined' )
 	{
@@ -40,7 +92,7 @@ include('header.php');
 	}
 	else
 	{
-		var editor = CKEDITOR.replace( 'description' );
+		var editor = CKEDITOR.replace( 'post_description' );
 		
 	}
 
@@ -52,30 +104,66 @@ include('header.php');
 						
 					</tr>
 					<tr>
-						<td><input type="file" name=""></td>
+						<td><input type="file" name="post_image"></td>
 					</tr>
 
 					<tr><td>Select Category</td></tr>
 					<tr>
 						<td>
-							<input type="checkbox" name="">&nbsp;Technology
-							<input type="checkbox" name="">&nbsp;Technology
-							<input type="checkbox" name="">&nbsp;Technology
+							<select name="cat_id">
+							<option>Choose From Here</option>
+
+							<?php
+
+
+
+							$statement = $db->prepare("SELECT * FROM table_category ORDER BY Cat_name ASC");
+						    $statement->execute();
+							$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+							foreach($result as $row){
+
+							?>
+							<option value="<?php echo $row['cat_id'];?>"><?php echo $row['Cat_name'];?></option>
+
+							<?php
+							}
+
+							?>
+
+							
+
+							</select>
 						</td>
 					</tr>
 					<tr><td>Select Tags</td></tr>
 					<tr>
 						<td>
-							<input type="checkbox" name="">&nbsp;Technology
-							<input type="checkbox" name="">&nbsp;Technology
-							<input type="checkbox" name="">&nbsp;Technology
+						<?php
+
+
+
+							$statement = $db->prepare("SELECT * FROM table_tag ORDER BY tag_name ASC");
+						    $statement->execute();
+							$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+							foreach($result as $row){
+
+							?>
+							<input type="checkbox" name="tag_in" value="<?php $row['tag_id'];?>">&nbsp;<?php echo $row['tag_name'];?>
+
+							<?php
+							}
+
+							?>
+
+							
+							
 						</td>
 					</tr>
 					
 				
 					<tr>
 						
-						<td><input type="submit" value="SAVE" name=""></td>
+						<td><input type="submit" value="SAVE" name="form_save"></td>
 					</tr>
 				</table>
 			</form>
