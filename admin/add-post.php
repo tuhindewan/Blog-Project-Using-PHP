@@ -30,11 +30,54 @@ if (isset($_POST['form_save'])) {
 				throw new Exception("Category Name can not be Empty");
 				
 			}
-				if (empty($_POST['tag_in'])) {
+			if (empty($_POST['tag_in'])) {
 				
 				throw new Exception("Tag Name can not be Empty");
 				
 			}
+
+
+			$statement = $db->prepare("SHOW TABLE STATUS LIKE 'table_post'");
+			$statement->execute();
+			$result = $statement->fetchAll();
+			foreach($result as $row)
+			$new_id = $row[10];
+
+			$up_filename=$_FILES["post_image"]["name"];
+			$file_basename = substr($up_filename, 0, strripos($up_filename, '.')); // strip extention
+			$file_ext = substr($up_filename, strripos($up_filename, '.')); // strip name
+			$f1 = $new_id . $file_ext;
+
+			if(($file_ext!='.png')&&($file_ext!='.jpg')&&($file_ext!='.jpeg')&&($file_ext!='.gif'))
+			throw new Exception("Only jpg, jpeg, png and gif format images are allowed to upload.");
+
+			move_uploaded_file($_FILES["post_image"]["tmp_name"],"../uploads/" . $f1);
+
+
+			$tag_id = $_POST['tag_in'];
+
+			$i = 0;
+
+			if (is_array($tag_id)) {
+				foreach ($tag_id as $key => $value) {
+				
+				$arr[$i] = $value;
+				
+				$i++;
+			}
+			}
+
+			$tag_ids  = implode(",",$arr);
+			echo $tag_ids;
+
+			$post_date = date('Y-m-d');
+			$post_timestamp = strtotime(date('Y-m-d'));
+
+
+			$statement = $db->prepare("insert into table_post (post_title,post_description,post_image,cat_id,tag_id,post_date,post_timestamp) values(?,?,?,?,?,?,?)");
+			$statement->execute(array($_POST['post_title'],$_POST['post_description'],$f1,$_POST['cat_id'],$_POST['tag_in'],$post_date,$post_timestamp));
+				
+			
 
 			$success_message = "Post is inserted Successfully";
 
@@ -59,17 +102,19 @@ include('header.php');
 ?>
 		<div class="content">
 			<h2>Add New Post</h2>
-			<form action="" method="post">
+			<form action="" method="post" enctype="multipart/form-data">
 				<table class="">
 					<tr>
 						<td>Title</td>
 					</tr>
 
 					<?php
-					if (isset($error_message)) {
-						echo $error_message;
-					}
-
+						if (isset($error_message)) {
+							echo "<div style='color:red;'>".$error_message."</div>";
+						}
+						if (isset($success_message)) {
+							echo "<div style='color:green;'>".$success_message."</div>";
+						}
 					?>
 					<tr>
 						<td><input class="long" type="text" name="post_title" value=""></td>
@@ -100,7 +145,7 @@ include('header.php');
 						</td>
 					</tr>
 				
-						<td>Add Image</td>
+						<td>Featured Image</td>
 						
 					</tr>
 					<tr>
@@ -148,7 +193,7 @@ include('header.php');
 							foreach($result as $row){
 
 							?>
-							<input type="checkbox" name="tag_in" value="<?php $row['tag_id'];?>">&nbsp;<?php echo $row['tag_name'];?>
+							<input type="checkbox" name="tag_in[]" value="<?php echo $row['tag_id'];?>">&nbsp;<?php echo $row['tag_name'];?>
 
 							<?php
 							}
