@@ -40,7 +40,7 @@ include('header.php');
 				<div id="inline<?php echo $i;?>" style="width: 700px; display: none;">
 					<h3 style="border-bottom: 2px solid #808080; margin-bottom: 10px;">View All Data</h3>
 					<p>
-						<form action="" method="post"> 
+						<form action="" method="post" enctype="multipart/form-data"> 
 							<table>
 								<tr>
 									<td><b>Title</b></td>
@@ -56,7 +56,7 @@ include('header.php');
 								</tr>
 								<tr>
 									<td><b>featured Image</b></td>
-									<td><img src="../uploads/<?php $row['post_image'];?>" alt=""></td>
+									<td><img src="../uploads/<?php echo $row['post_image'];?>" alt="" width="200"></td>
 								</tr>
 								<tr>
 									<td>
@@ -103,17 +103,15 @@ include('header.php');
 								?>
 									</td>
 								</tr>
-								<tr>
-									<td><input type="submit" value="UPDATE" name=""></td>
-								</tr>
+								
 							</table>
 						</form>
 					</p>
 				</div>
 				&nbsp;|&nbsp;
-				<a href="post-edit.php">Edit</a>
+				<a href="post-edit.php?id=<?php echo $row['post_id']; ?>">Edit</a>
 				&nbsp;|&nbsp;
-				 <a onclick="return confirmDelete();" href="">Delete</a> </td>
+				 <a onclick="return confirmDelete();" href="post-delete.php?id=<?php echo $row['post_id']; ?>">Delete</a> </td>
 			</tr>
 			
 
