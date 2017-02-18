@@ -1,89 +1,217 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<title>Blog Design</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet"  href="style.css" />
-</head>
 
-<body>
-	<div id="header">
-		<span class="logo">blog about web design</span>																												
-		<ul id="menu">
-			<li><a href="index.php"><img src="images/but1.gif" alt="" width="64" height="42" /></a></li>
-			<li><a href=""><img src="images/but2.gif" alt="" width="108" height="42" /></a></li>
-			<li><a href=""><img src="images/but3.gif" alt="" width="93" height="42" /></a></li>
-			<li><a href=""><img src="images/but4.gif" alt="" width="101" height="42" /></a></li>
-			<li><a href=""><img src="images/but5.gif" alt="" width="86" height="42" /></a></li>
-			<li><a href=""><img src="images/but6.gif" alt="" width="102" height="42" /></a></li>
-		</ul>
-		<img src="images/spacer.gif" alt="setalpm" width="120" height="120" border="0" usemap="#Map" class="rss" />
-        <map name="Map">
-          <area shape="circle" coords="60,60,63" href="#">
-      </map>
-	</div>
-	<div id="content">
-		<div id="posts">
+<?php
+
+include('header.php');
+?>
+
+<?php
+		include('connection.php');
+
+		//pagiantion starts
+
+$adjacents = 7;
+
+			
+			$statement = $db->prepare("SELECT * FROM table_post ORDER BY post_id DESC");
+			$statement->execute();
+			$total_pages = $statement->rowCount();
+							
+			
+			$targetpage = $_SERVER['PHP_SELF'];   //your file name  (the name of this file)
+			$limit = 5;                                 //how many items to show per page
+			$page = @$_GET['page'];
+			if($page) 
+				$start = ($page - 1) * $limit;          //first item to display on this page
+			else
+				$start = 0;
+			
+						
+			$statement = $db->prepare("SELECT * FROM table_post ORDER BY post_id DESC LIMIT $start, $limit");
+			$statement->execute();
+			$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+			
+			
+			if ($page == 0) $page = 1;                  //if no page var is given, default to 1.
+			$prev = $page - 1;                          //previous page is page - 1
+			$next = $page + 1;                          //next page is page + 1
+			$lastpage = ceil($total_pages/$limit);      //lastpage is = total pages / items per page, rounded 
+
+up.
+			$lpm1 = $lastpage - 1;   
+			$pagination = "";
+			if($lastpage > 1)
+			{   
+				$pagination .= "<div class=\"pagination\">";
+				if ($page > 1) 
+					$pagination.= "<a href=\"$targetpage?page=$prev\">&#171; previous</a>";
+				else
+					$pagination.= "<span class=\"disabled\">&#171; previous</span>";    
+				if ($lastpage < 7 + ($adjacents * 2))   //not enough pages to bother breaking it up
+				{   
+					for ($counter = 1; $counter <= $lastpage; $counter++)
+					{
+						if ($counter == $page)
+							$pagination.= "<span class=\"current\">$counter</span>";
+						else
+							$pagination.= "<a href=\"$targetpage?page=$counter\">
+
+$counter</a>";                 
+					}
+				}
+				elseif($lastpage > 5 + ($adjacents * 2))    //enough pages to hide some
+				{
+					if($page < 1 + ($adjacents * 2))        
+					{
+						for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+						{
+							if ($counter == $page)
+								$pagination.= "<span class=\"current\">$counter</span>";
+							else
+								$pagination.= "<a href=\"$targetpage?page=$counter\">
+
+$counter</a>";                 
+						}
+						$pagination.= "...";
+						$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
+						$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";      
+
+ 
+					}
+					elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+					{
+						$pagination.= "<a href=\"$targetpage?page=1\">1</a>";
+						$pagination.= "<a href=\"$targetpage?page=2\">2</a>";
+						$pagination.= "...";
+						for ($counter = $page - $adjacents; $counter <= $page + $adjacents; 
+
+$counter++)
+						{
+							if ($counter == $page)
+								$pagination.= "<span class=\"current\">$counter</span>";
+							else
+								$pagination.= "<a href=\"$targetpage?page=$counter\">
+
+$counter</a>";                 
+						}
+						$pagination.= "...";
+						$pagination.= "<a href=\"$targetpage?page=$lpm1\">$lpm1</a>";
+						$pagination.= "<a href=\"$targetpage?page=$lastpage\">$lastpage</a>";      
+
+ 
+					}
+					else
+					{
+						$pagination.= "<a href=\"$targetpage?page=1\">1</a>";
+						$pagination.= "<a href=\"$targetpage?page=2\">2</a>";
+						$pagination.= "...";
+						for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; 
+
+$counter++)
+						{
+							if ($counter == $page)
+								$pagination.= "<span class=\"current\">$counter</span>";
+							else
+								$pagination.= "<a href=\"$targetpage?page=$counter\">
+
+$counter</a>";                 
+						}
+					}
+				}
+				if ($page < $counter - 1) 
+					$pagination.= "<a href=\"$targetpage?page=$next\">next &#187;</a>";
+				else
+					$pagination.= "<span class=\"disabled\">next &#187;</span>";
+				$pagination.= "</div>\n";       
+			}
+
+
+			//pagination ends
+		
+		foreach($result as $row){
+
+?>
+
 			<div class="post">
-				<h2>Retro Photos</h2>
-				<div><span class="date">Mar 18th</span><span class="categories">in: Photos, Retro</span></div>
-				<div class="description">
-					<p><img src="images/pic1.jpg" alt="" width="200" height="140" />
-					Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Proin nunc. Donec nonummy, tellus er sodales enim, in tincidunmauris in odio. Massa ac laoreet iaculipede nisl ullamcorpermassa, ac consectetuer feipsum eget pede.  Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio.  massa ac laoreet iaculipede niorpermassa,consectetuer feipsum eget pede. Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio. Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. </p>
+				<h2><?php echo $row['post_title'];?></h2>
+				<div>
+				<span class="date">
+					<?php
+
+					$post_date = $row['post_date'];
+					$day = substr($post_date,8,2);
+					$month = substr($post_date,5,2);
+					$year = substr($post_date,0,4);
+					if($month=='01') {$month="Jan";}
+					if($month=='02') {$month="Feb";}
+					if($month=='03') {$month="Mar";}
+					if($month=='04') {$month="Apr";}
+					if($month=='05') {$month="May";}
+					if($month=='06') {$month="Jun";}
+					if($month=='07') {$month="Jul";}
+					if($month=='08') {$month="Aug";}
+					if($month=='09') {$month="Sep";}
+					if($month=='10') {$month="Oct";}
+					if($month=='11') {$month="Nov";}
+					if($month=='12') {$month="Dec";}
+					echo $day.' '.$month.', '.$year;
+
+
+					?>
+
+				</span>
+				<span class="categories">
+					Tags:&nbsp;	
+					<?php
+
+					$arr = explode(",",$row['tag_id']);
+					$count_arr = count(explode(",",$row['tag_id']));
+					$k=0;
+					for($j=0;$j<$count_arr;$j++)
+					{
+										
+					$statement1 = $db->prepare("SELECT * FROM table_tag WHERE tag_id=?");
+					$statement1->execute(array($arr[$j]));
+				    $result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+					foreach($result1 as $row1)
+					{
+					$arr[$k] = $row1['tag_name'];
+					}
+					$k++;
+					}
+					$tag_names = implode(",",$arr);
+					echo $tag_names;
+					?>
+				</span>
 				</div>
-				<p class="comments">Comments -17  <span>|</span>   <a href="index2.php">Continue Reading</a></p>
-			</div>
-			<div class="post">
-				<h2>Original Wordpress Themes</h2>
-				<div><span class="date">Mar 12th</span><span class="categories">in: Design, Themes</span></div>
 				<div class="description">
-					<p><img src="images/pic1.jpg" alt="" width="200" height="140" />Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Proin nunc. Donec nonummy, tellus er sodales enim, in tincidunmauris in odio. Massa ac laoreet iaculipede nisl ullamcorpermassa, ac consectetuer feipsum eget pede.  Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio.  massa ac laoreet iaculipede niorpermassa,consectetuer feipsum eget pede. Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio. Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. </p>
+				<img src="uploads/<?php echo $row['post_image'];?>" alt="" width="239" style="float: left;" />
+
+				<?php
+				$pieces = explode(" ", $row['post_description']);
+				$final_words = implode(" ", array_splice($pieces, 0, 200));
+				$final_words = $final_words.' .......';
+				?>
+				<?php echo $final_words; ?>
+
 				</div>
-				<p class="comments">Comments -17</a>   <span>|</span>   <a href="index2.php">Continue Reading</a></p>
+				<p class="comments">Comments - <a href="#">17</a>   <span>|</span>   <a href="index2.php?id=<?php echo$row['post_id'];?>">Continue Reading</a></p>
 			</div>
-		</div>
-		<div id="sidebar">
-		    <div id="search">
-				<input type="text" value="Search"> <a href="#"><img src="images/go.gif" alt="" width="26" height="26" /></a>																																																																																																																																																																																																																																																						<div class="inner_copy"><a href="http://www.bestfreetemplates.info/flash.php">free flash templates</a><a href="http://www.beautifullife.info/web-design/15-best-free-website-builders/">best free web builders</a></div>
-			</div>
-			<div class="list">
-				<img src="images/title1.gif" alt="" width="186" height="36" />
-				<ul>
-					<li><a href="#">animation</a></li>
-					<li><a href="#">magazines</a></li>
-					<li><a href="#">architecture</a></li>
-					<li><a href="#">news</a></li>
-					<li><a href="#">art</a></li>
-					<li><a href="#">photography</a></li>
-					<li><a href="#">blogs</a></li>
-					<li><a href="#">product design</a></li>
-					<li><a href="#">books</a></li>
-					<li><a href="#">stuff</a></li>
-					<li><a href="#">graphic design</a></li>
-					<li><a href="#">web design</a></li>
-					<li><a href="#">illustration</a></li>
-				</ul>
-				<img src="images/title2.gif" alt="" width="180" height="34" />
-				<ul>
-					<li><a href="#">January</a></li>
-					<li><a href="#">July</a></li>
-					<li><a href="#">February</a></li>
-					<li><a href="#">August</a></li>
-					<li><a href="#">March</a></li>
-					<li><a href="#">September</a></li>
-					<li><a href="#">April</a></li>
-					<li><a href="#">October</a></li>
-					<li><a href="#">May</a></li>
-					<li><a href="#">November</a></li>
-					<li><a href="#">June</a></li>
-					<li><a href="#">December</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div id="footer">
-		<p>Copyright &copy;. All rights reserved. Design by <a href="http://freecsstemplates.in">Free Css</a></p>																																																																		<div class="inner_copy"><a href="http://www.greatdirectories.org/offer.html">buy links with high pr</a><a href="http://www.bestfreetemplates.org/">free templates</a></div>
-	</div>
-</body>
-</html>
+<?php
+
+		}
+
+?>
+
+<div class="pagination" >
+	<?php
+echo $pagination;
+?>
+</div>
+
+		
+<?php
+include('footer.php');
+?>
+
+
+		
