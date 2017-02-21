@@ -17,7 +17,7 @@
 
 					?>
 
-					<li><a href="#"><?php echo $row ['Cat_name'];?></a></li>
+					<li><a href="category.php?id=<?echo $row['cat_id'];?>"><?php echo $row ['Cat_name'];?></a></li>
 
 				<?php
 				}

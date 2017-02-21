@@ -74,10 +74,12 @@ if (isset($_POST['form_save'])) {
 
 			$post_date = date('Y-m-d');
 			$post_timestamp = strtotime(date('Y-m-d'));
+			$year = substr($post_date,0,4);
+			$month = substr($post_date,5,2);
 
 		
-			$statement = $db->prepare("INSERT INTO table_post (post_title,post_description,post_image,cat_id,tag_id,post_date,post_timestamp) VALUES (?,?,?,?,?,?,?)");
-			$statement->execute(array($_POST['post_title'],$_POST['post_description'],$f1,$_POST['cat_id'],$tag_ids,$post_date,$post_timestamp));
+			$statement = $db->prepare("INSERT INTO table_post (post_title,post_description,post_image,cat_id,tag_id,post_date,year,month,post_timestamp) VALUES (?,?,?,?,?,?,?,?,?)");
+			$statement->execute(array($_POST['post_title'],$_POST['post_description'],$f1,$_POST['cat_id'],$tag_ids,$post_date,$year,$month,$post_timestamp));
 
 			$success_message = "Post is inserted Successfully";
 
