@@ -194,18 +194,17 @@ $counter</a>";
 				<?php echo $final_words; ?>
 
 				</div>
-				<p class="comments">
-				
-				Comments - 
+				<p class="comments">Comments - 
 		
-		<?php
-		$statement1 = $db->prepare("SELECT * FROM table_comment WHERE post_id=? AND active=1");
-		$statement1->execute(array($row['post_id']));
-		$total_num = $statement1->rowCount();
-		echo $total_num;
-		?>
-			
-		</p>
+				<?php
+				$statement1 = $db->prepare("SELECT * FROM table_comment WHERE post_id=? AND active=1");
+				$statement1->execute(array($row['post_id']));
+				$total_num = $statement1->rowCount();
+				echo $total_num;
+				?>  
+				<span>|</span>   
+				<a href="index2.php?id=<?php echo$row['post_id'];?>">Continue Reading</a>
+				</p>
 			</div>
 <?php
 

@@ -1,7 +1,7 @@
 </div>
 		<div id="sidebar">
 		    <div id="search">
-				<input type="text" value="Search"> <a href="#"><img src="images/go.gif" alt="" width="26" height="26" /></a>														
+				<input type="text" placeholder="Search"> <a href="#"><img src="images/go.gif" alt="" width="26" height="26" /></a>														
 			</div>
 			<div class="list">
 				<img src="images/title1.gif" alt="" width="186" height="36" />

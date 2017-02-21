@@ -58,7 +58,14 @@ include('header.php');
 									<td><b>featured Image</b></td>
 									<td><img src="../uploads/<?php echo $row['post_image'];?>" alt="" width="200"></td>
 								</tr>
+
 								<tr>
+							<td><b>Category</b></td>
+								</tr>
+
+								<tr>
+
+
 									<td>
 										<?php
 
