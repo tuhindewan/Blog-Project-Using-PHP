@@ -3,6 +3,52 @@
 if (!isset($_REQUEST['id'])) {
 	header("location:index.php");
 }
+else
+{
+	$id = $_REQUEST['id'];
+}
+
+?>
+
+<?php
+
+if (isset($_POST['form1'])) {
+	
+	try{
+
+		if(empty($_POST['c_message'])) {
+			throw new Exception("Message field can not be empty.");
+		}
+		
+		if(empty($_POST['c_name'])) {
+			throw new Exception("Name field can not be empty.");
+		}
+		
+		if(empty($_POST['c_email'])) {
+			throw new Exception("Email field can not be empty.");
+		}
+
+		if(!(preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $_POST['c_email']))) {
+			throw new Exception("Please enter a valid email address.");
+		}
+
+		$date = date('Y-m-d');
+		$active = 0;
+		include'connection.php';
+
+		$statement = $db->prepare("insert into table_comment (c_name,c_email,c_url,c_message,c_date,post_id,active) values(?,?,?,?,?,?,?)");
+		$statement->execute(array($_POST['c_name'],$_POST['c_email'],$_POST['c_url'],$_POST['c_message'],$date,$id,$active));
+
+		$success_message = "Your comment has been sent. It will be published on the website after admin's approval.";
+
+	}
+
+
+	catch(Exception $e){
+		$error_message = $e->getMessage();
+	}
+}
+
 
 ?>
 
@@ -80,10 +126,7 @@ include('header.php');
 				<?php echo $row['post_description']; ?>
 				</p>
 				</div>
-				<p><img src="images/photo1.jpg" alt="" width="511" height="310" /></p>
-				<p>Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Proin nunc. </p>
-				<p><img src="images/photo2.jpg" alt="" width="511" height="310" /></p>
-				<p>Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Proin nunc. </p>
+			
 			</div>
 
 <?php		
@@ -91,37 +134,83 @@ include('header.php');
 ?>
 
 			<div id="comments">
-				<img src="images/title3.gif" alt="" width="216" height="39" /><br />		<div class="inner_copy"><a href="http://www.bestfreetemplates.org/">free templates</a><a href="http://www.bannermoz.com/">banner templates</a></div>
+			<img src="images/title3.gif" alt="" width="216" height="39" /><br/>		
+				<?php
+
+				$statement = $db->prepare("SELECT * FROM table_comment WHERE active=1 AND post_id=?");
+	    		$statement->execute(array($id));
+				$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+				foreach($result as $row){
+					?>
+
+
 				<div class="comment">
 					<div class="avatar">
-						<img src="images/avatar1.jpg" alt="" width="80" height="80" /><br />
-						<span>Name User</span><br />
-						April 15th
+					<?php 
+
+					$gravatarMd5 = md5($row['c_email']);
+					
+					?>
+
+					<img src="http://www.gravatar.com/avatar/<?php echo $gravatarMd5; ?>" alt="" width="80" height="80"> <br>
+						
+						<span><?php echo $row['c_name'];?></span><br />
+						<?php
+
+						$year = substr($row['c_date'],0,4);
+						$month = substr($row['c_date'],5,2);
+						$day = substr($row['c_date'],8,2);
+				
+						if($month=='01') {$month_full="Jan";}
+						if($month=='02') {$month_full="Feb";}
+						if($month=='03') {$month_full="Mar";}
+						if($month=='04') {$month_full="Apr";}
+						if($month=='05') {$month_full="May";}
+						if($month=='06') {$month_full="Jun";}
+						if($month=='07') {$month_full="Jul";}
+						if($month=='08') {$month_full="Aug";}
+						if($month=='09') {$month_full="Sep";}
+						if($month=='10') {$month_full="Oct";}
+						if($month=='11') {$month_full="Nov";}
+						if($month=='12') {$month_full="Dec";}
+						
+						echo $day." ".$month_full.", ".$year;
+						
+
+						?>
 					</div>
-					<p>Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Donec nonummy, tellus er sodales enim, in tincidunmauris in odio. </p>
+					<p><?php echo $row['c_message'];?></p>
 				</div>
-				<div class="comment">
-					<div class="avatar">
-						<img src="images/avatar2.gif" alt="" width="80" height="80" /><br />
-						<span>Name User</span><br />
-						April 12th
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. </p>
-				</div>
+						
+
+					<?php
+
+						}
+
+				?>
+
 				<div id="add">
 					<img src="images/title4.gif" alt="" width="216" height="47" class="title" /><br />
+
+					<?php
+			if(isset($error_message)) {echo "<div class='error'>".$error_message."</div>";}
+			if(isset($success_message)) {echo "<div class='success'>".$success_message."</div>";}
+					?>
+
 					<div class="avatar">
 						<img src="images/avatar2.gif" alt="" width="80" height="80" /><br />
 						<span>Name User</span><br />
 						April 12th
 					</div>
 					<div class="form">
-						<form action="#">
-							<textarea>Your Message...</textarea><br />
-							<input type="text" value="Name" /><br />
-							<input type="text" value="E-mail" /><br />
-							<input type="text" value="URL (Optional)" /><br />
-							<a href="#"><img src="images/button.gif" alt="" width="94" height="27" /></a>
+						<form action="" method="post">
+							<textarea name="c_message" placeholder="Your Message..."></textarea><br />
+							<input type="text" name="c_name" placeholder="Name" /><br />
+							<input type="text" name="c_email"  placeholder="E-mail" /><br />
+							<input type="text" name="c_url"  placeholder="URL (Optional)" /><br />
+							
+							<input type="submit" value="ADD COMMENTS" name="form1" style="color: red; width: 110px; height: 27px; text-align: center;">
+						
 						</form>
 					</div>
 				</div>

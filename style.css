@@ -344,3 +344,12 @@ font-size:11px
 	border: 1px solid #929693;
 	color: #929693;
 }
+
+.error{
+	color: red;
+	font-weight: bold;
+}
+.success{
+	color: green;
+	font-weight: bold;
+}

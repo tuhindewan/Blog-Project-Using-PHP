@@ -35,5 +35,9 @@
 				<li><a href="manage-catgory.php">Manage Catagory</a></li>
 				<li><a href="manage-tags.php">Manage tags</a></li>
 			</ul>
+			<h2>Comment Section</h2>
+			<ul>
+				<li><a href="comment-approve.php">View Comments</a></li>
+			</ul>
 	</div>
 		
